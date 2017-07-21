@@ -1,0 +1,70 @@
+plugins {
+  id "com.eriwen.gradle.js" version "2.14.1"
+}
+
+def jsSrcDir =sourceDir
+/*plugins {
+    id 'com.craigburke.karma' version '1.4.4'
+}
+karma {
+    profile('default')  {
+        sourceBases = ['src/']
+        sourceFiles = ['** /*.js'] // <2>
+
+        testBases = ['src/tests/']
+        testFiles = ['test.js'] // <3>
+    }
+    browsers = ['Chrome']
+}*/
+javascript.source {
+    dev {
+        js {
+            srcDir jsSrcDir
+            include "*.js"
+            exclude "*.min.js"
+        }
+    }
+    prod {
+        js {
+            srcDir jsSrcDir
+            include "*.min.js"
+        }
+    }
+}
+combineJs {
+    encoding = "UTF-8"
+    source = javascript.source.dev.js.files
+    dest = file("${buildDir}/all.js")
+}
+minifyJs {
+    source = combineJs
+    dest = file("${buildDir}/all-min.js")
+    sourceMap = file("${buildDir}/all.sourcemap.json")
+    closure {
+        warningLevel = 'QUIET'
+        compilerOptions.languageIn= 'ECMASCRIPT6_STRICT'
+        compilerOptions.languageOut="ECMASCRIPT5"
+    }
+}
+gzipJs {
+    source = minifyJs
+    dest = file("${buildDir}/all-1.1.min.js")
+}
+
+task myZip(type: Zip) {
+    from "build"
+    baseName = 'testZip'
+}
+
+task karmaFirst(type:Exec){ 
+
+   // commandLine 'karma', 'start'
+    commandLine karmaStart
+}
+
+/*jsdoc {
+    
+    source = ["src/js/first.js", "src/js/second.js"]
+    destinationDir = file("${buildDir}/jsdoc")
+    
+}*/

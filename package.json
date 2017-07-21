@@ -1,0 +1,22 @@
+{
+    "name": "karmatest",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "directories": {
+        "test": "tests"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "karma": "^1.7.0",
+        "karma-chrome-launcher": "^2.2.0",
+        "karma-jasmine": "^1.1.0"
+    },
+    "devDependencies": {
+        "jasmine": "^2.6.0"
+    }
+}
